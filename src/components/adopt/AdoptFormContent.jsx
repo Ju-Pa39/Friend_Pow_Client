@@ -215,16 +215,17 @@ export function AdoptFormContent({
 
             <div>
               <input
-                {...register("socialContact")}
+                {...register("aloneHours")}
                 onChange={(e) => {
                   handleInputChange(e);
-                  register("socialContact").onChange(e);
+                  register("aloneHours").onChange(e);
                 }}
-                placeholder={t("adoptForm.lineContact")}
+                type="number"
+                placeholder={`${t("adoptForm.aloneHours")} (${t("adoptForm.optional")})`}
                 className={inputClass}
               />
-              {errors.socialContact && (
-                <span className="text-red-500 text-sm">{errors.socialContact.message}</span>
+              {errors.aloneHours && errors.aloneHours.type !== 'optional' && (
+                <span className="text-red-500 text-sm">{errors.aloneHours.message}</span>
               )}
             </div>
 
@@ -572,11 +573,11 @@ export function AdoptFormContent({
             </div>
           )}
 
-          <Button onClick={() => submitButton.current.click()}  className="bg-pink-600 text-white hover:bg-pink-700 " >
+          <Button onClick={() => submitButton.current.click()} className="bg-pink-600 text-white hover:bg-pink-700 " >
             <Heart className="w-5 h-5 mr-2" />
             {t("adoptForm.submitApplication")}
           </Button>
-      
+
           {/* {errors.files && (
          <span className="text-red-500 text-sm">{errors.files.message}</span>
        )} */}
