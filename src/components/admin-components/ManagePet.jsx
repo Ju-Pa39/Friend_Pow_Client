@@ -25,7 +25,7 @@ const TABLE_COLUMNS = [
   'ทำหมัน', 'วัคซีน', 'แก้ไข', 'ลบ'
 ];
 
-const EditPetDialog = ({ petId }) => {
+const EditPetDialog = ({ petId, page }) => {
   const [open, setOpen] = useState(false)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -40,7 +40,7 @@ const EditPetDialog = ({ petId }) => {
           <DialogDescription>
             เปลี่ยนรายละเอียดสัตว์เลี้ยงได้ที่นี่.
           </DialogDescription>
-          <EditPetsForm petId={petId} setOpen={setOpen} />
+          <EditPetsForm petId={petId} setOpen={setOpen} page={page} />
         </DialogHeader>
       </DialogContent>
     </Dialog>
@@ -75,7 +75,7 @@ const AddPetDialog = () => {
 }
 
 // Pet Table Row Component
-const PetTableRow = ({ pet, index, hdlDeletePet }) => (
+const PetTableRow = ({ pet, index, hdlDeletePet, page }) => (
   <div className="grid grid-cols-[0.5fr_1fr_1fr_1fr_1.5fr_0.7fr_0.7fr_0.7fr_0.7fr_0.7fr_0.7fr_0.7fr_0.4fr_0.4fr] gap-4 p-4 text-sm font-medium text-gray-500 sticky top-0 bg-white z-10 border-b">
     <div className="flex items-center gap-2">
       <div className="text-gray-500">{index + 1}</div>
@@ -109,7 +109,7 @@ const PetTableRow = ({ pet, index, hdlDeletePet }) => (
 
     <div className="">
       {/* <button className="h-8 w-8 cursor-pointer hover:text-blue-500"> */}
-      <EditPetDialog petId={pet.id} />
+      <EditPetDialog petId={pet.id} page={page} />
       {/* </button> */}
     </div>
     <div>
@@ -132,7 +132,7 @@ export default function ManagePet() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    actionGetAllPets(token,page)
+    actionGetAllPets(token, page)
   }, []);
 
   const hdlDeletePet = async (petId) => {
@@ -159,22 +159,22 @@ export default function ManagePet() {
 
   const hdlPageChange = (n) => {
     try {
-        if (page + n < 1) {
-            return;
-        }
-        if (n > 0 && allPets.length < 6) {
-            return;
-        }
-        actionGetAllPets(token, page);
-        setPage((prev) => prev + n);
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    } catch (err) {
+      if (page + n < 1) {
         return;
+      }
+      if (n > 0 && allPets.length < 6) {
+        return;
+      }
+      actionGetAllPets(token, page);
+      setPage((prev) => prev + n);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } catch (err) {
+      return;
     }
-};
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full">
@@ -191,34 +191,34 @@ export default function ManagePet() {
 
           {/* Table Body */}
           {allPets.map((pet, index) => (
-            <PetTableRow key={pet.id} pet={pet} index={index} hdlDeletePet={hdlDeletePet} />
+            <PetTableRow key={pet.id} pet={pet} index={index} hdlDeletePet={hdlDeletePet} page={page} />
           ))}
         </div>
         {/* button */}
-      <div className="mt-10">
-                <div className="flex justify-center items-center gap-2">
-                    {page > 1 &&
-                        <Button
-                            onClick={() => hdlPageChange(-1)}
-                            className="border text-xl"
-                        >
-                            ก่อนหน้า
-                        </Button>
-                    }
-                    <p className="text-2xl">หน้า {page}</p>
-                    {
-                      allPets?.length === 10 &&
-                        <Button
-                            onClick={() => hdlPageChange(+1)}
-                            className="border text-xl"
-                        >
-                            ถัดไป
-                        </Button>
-                    }
-                </div>
-            </div>
+        <div className="mt-10">
+          <div className="flex justify-center items-center gap-2">
+            {page > 1 &&
+              <Button
+                onClick={() => hdlPageChange(-1)}
+                className="border text-xl"
+              >
+                ก่อนหน้า
+              </Button>
+            }
+            <p className="text-2xl">หน้า {page}</p>
+            {
+              allPets?.length === 10 &&
+              <Button
+                onClick={() => hdlPageChange(+1)}
+                className="border text-xl"
+              >
+                ถัดไป
+              </Button>
+            }
+          </div>
+        </div>
       </main>
-      
+
     </div>
   );
 }

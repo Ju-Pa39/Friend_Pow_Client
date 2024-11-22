@@ -133,7 +133,7 @@ const adoptFormAuthen = (t) => Joi.object({
     aloneHours: Joi.number()
         .integer()
         .min(0)
-        .required()
+        .optional()
         .messages({
             "number.base": t('validation.aloneHours'),
             "number.min": t('validation.aloneHoursMin'),

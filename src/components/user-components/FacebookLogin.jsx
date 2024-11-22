@@ -51,6 +51,7 @@ function FacebookLoginButton() {
                 appId={import.meta.env.VITE_FACEBOOK_APP_ID}
                 autoLoad={false}
                 fields="name,email"
+                scope='public_profile,email'
                 callback={handleFacebookLogin}
                 icon="fa-facebook"
                 textButton={t("loginWith.facebook")}

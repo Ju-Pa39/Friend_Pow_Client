@@ -10,10 +10,10 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script>
+    <!-- <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '1357505362348323', // Replace with your app ID
+          appId      : `${import.meta.env.VITE_FACEBOOK_APP_ID}`, // Replace with your app ID
           cookie     : true,
           xfbml      : true,
           version    : 'v10.0' // Use the correct API version
@@ -27,7 +27,7 @@
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
-    </script>
+    </script> -->
     
     
   </body>
