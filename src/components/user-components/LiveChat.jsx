@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useNavigate } from 'react-router-dom';
 import Draggable from 'react-draggable';
 
-const genAI = new GoogleGenerativeAI();
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_GEMINI);
 
 const LiveChat = forwardRef((props, ref) => {
   const [isOpen, setIsOpen] = useState(false);
