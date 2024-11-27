@@ -8,40 +8,40 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { useNavigate } from 'react-router-dom';
 import Draggable from 'react-draggable';
 
-const genAI = new GoogleGenerativeAI("AIzaSyDFQP49YT2evf8SvHVHcWDfPazJxH3egYM");
+const genAI = new GoogleGenerativeAI();
 
 const LiveChat = forwardRef((props, ref) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const chatHistoryRef = useRef([]);
-    const scrollAreaRef = useRef(null);
-    const nodeRef = useRef(null);
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      if (messages.length === 0) {
-        const welcomeMessage = {
-          text: "Hello! I'm your Friendly Paws assistant. How can I help you with pet adoption, donations, or events?",
-          sender: 'bot'
-        };
-        setMessages([welcomeMessage]);
-        chatHistoryRef.current = [welcomeMessage];
-      }
-    }, []);
-  
-    useEffect(() => {
-      const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
-      if (scrollArea) {
-        scrollArea.scrollTop = scrollArea.scrollHeight;
-      }
-    }, [messages]);
-  
-    const handleDrag = (e, data) => {
-      setPosition({ x: data.x, y: data.y });
-    };
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const chatHistoryRef = useRef([]);
+  const scrollAreaRef = useRef(null);
+  const nodeRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (messages.length === 0) {
+      const welcomeMessage = {
+        text: "Hello! I'm your Friendly Paws assistant. How can I help you with pet adoption, donations, or events?",
+        sender: 'bot'
+      };
+      setMessages([welcomeMessage]);
+      chatHistoryRef.current = [welcomeMessage];
+    }
+  }, []);
+
+  useEffect(() => {
+    const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
+    if (scrollArea) {
+      scrollArea.scrollTop = scrollArea.scrollHeight;
+    }
+  }, [messages]);
+
+  const handleDrag = (e, data) => {
+    setPosition({ x: data.x, y: data.y });
+  };
 
   const initialContext = `You are a helpful assistant for Friendly Paws, a pet adoption and care platform. Here's what you need to know:
 
@@ -131,9 +131,9 @@ const LiveChat = forwardRef((props, ref) => {
         </div>
       );
     }
-  
+
     const parts = message.text.split(/(\[[^\]]+\]\([^)]+\))/g);
-  
+
     return (
       <div className="bg-muted rounded-lg px-4 py-2 max-w-[80%] break-words whitespace-pre-wrap">
         {parts.map((part, index) => {
@@ -156,7 +156,7 @@ const LiveChat = forwardRef((props, ref) => {
       </div>
     );
   };
-  
+
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
@@ -180,7 +180,7 @@ const LiveChat = forwardRef((props, ref) => {
                     ✕
                   </Button>
                 </CardHeader>
-                
+
                 <CardContent className="flex-1 p-4 overflow-hidden">
                   <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
                     <div className="flex flex-col gap-4 pb-2">
@@ -216,7 +216,7 @@ const LiveChat = forwardRef((props, ref) => {
                 </CardFooter>
               </Card>
             )}
-            
+
             <Button
               onClick={() => setIsOpen(!isOpen)}
               size="icon"
